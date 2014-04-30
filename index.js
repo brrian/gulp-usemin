@@ -11,8 +11,8 @@ module.exports = function(options) {
 
 	var startReg = /<!--\s*build:(\w+)(?:\(([^\)]+?)\))?\s+(\/?([^\s]+?))\s*-->/gim;
 	var endReg = /<!--\s*endbuild\s*-->/gim;
-	var jsReg = /<\s*script\s+.*?src\s*=\s*"([^"]+?)".*?><\s*\/\s*script\s*>/gi;
-	var cssReg = /<\s*link\s+.*?href\s*=\s*"([^"]+)".*?>/gi;
+	var jsReg = /<\s*script\s+.*?src\s*=\s*"{{\s*asset\(\s*['"]([^"]+?)['"]\s*\)\s*}}".*?><\s*\/\s*script\s*>/gi;
+	var cssReg = /<\s*link\s+.*?href\s*=\s*"{{\s*asset\(\s*['"]([^"]+)['"]\s*\)\s*}}".*?>/gi;
 	var basePath, mainPath, mainName, alternatePath;
 
 	function createFile(name, content) {
@@ -43,9 +43,6 @@ module.exports = function(options) {
 
 		for (var i = 0, l = paths.length; i < l; ++i) {
 			var filepath = glob.sync(paths[i])[0];
-			if(filepath === undefined) {
-				throw new gutil.PluginError('gulp-usemin', 'Path ' + paths[i] + ' not found!');
-			}
 			files.push(new gutil.File({
 				path: filepath,
 				contents: fs.readFileSync(filepath)
@@ -114,12 +111,12 @@ module.exports = function(options) {
 					process(section[4], getFiles(section[5], jsReg), section[1], function(name, file) {
 						push(file);
 						if (path.extname(file.path) == '.js')
-							html.push('<script src="' + name.replace(path.basename(name), path.basename(file.path)) + '"></script>');
+							html.push('<script src="{{asset(\'' + name.replace(path.basename(name), path.basename(file.path)) + '\')}}"></script>');
 					}.bind(this, section[3]));
 				else
 					process(section[4], getFiles(section[5], cssReg), section[1], function(name, file) {
 						push(file);
-						html.push('<link rel="stylesheet" href="' + name.replace(path.basename(name), path.basename(file.path)) + '"/>');
+						html.push('<link rel="stylesheet" href="{{asset(\'' + name.replace(path.basename(name), path.basename(file.path)) + '\')}}"/>');
 					}.bind(this, section[3]));
 			}
 			else
