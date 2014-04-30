@@ -1,5 +1,5 @@
-# gulp-usemin
-> Replaces references to non-optimized scripts or stylesheets into a set of HTML files (or any templates/views).
+# gulp-usemin-blade
+> Replaces references to non-optimized scripts or stylesheets into a set of HTML files (or any templates/views) in Laravel's Blade format.
 
 This task is designed for gulp 3.
 > Attention: v0.3.0 options does not compatible with v0.2.0.
@@ -51,20 +51,20 @@ An example of this in completed form can be seen below:
 
 ```html
 <!-- build:css style.css -->
-<link rel="stylesheet" href="css/clear.css"/>
-<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="{{asset('css/clear.css')}}"/>
+<link rel="stylesheet" href="{{asset('css/main.css')}}"/>
 <!-- endbuild -->
 
 <!-- build:js js/lib.js -->
-<script src="../lib/angular-min.js"></script>
-<script src="../lib/angular-animate-min.js"></script>
+<script src="{{asset('../lib/angular-min.js')}}"></script>
+<script src="{{asset('../lib/angular-animate-min.js')}}"></script>
 <!-- endbuild -->
 
 <!-- build:js1 js/app.js -->
-<script src="js/app.js"></script>
-<script src="js/controllers/thing-controller.js"></script>
-<script src="js/models/thing-model.js"></script>
-<script src="js/views/thing-view.js"></script>
+<script src="{{asset('js/app.js')}}"></script>
+<script src="{{asset('js/controllers/thing-controller.js')}}"></script>
+<script src="{{asset('js/models/thing-model.js')}}"></script>
+<script src="{{asset('js/views/thing-view.js')}}"></script>
 <!-- endbuild -->
 ```
 
@@ -101,13 +101,13 @@ We want to optimize `foo.js` and `bar.js` into `optimized.js`, referenced using 
 
 ```
     <!-- build:css style.css -->
-    <link rel="stylesheet" href="css/clear.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="{{asset('css/clear.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/main.css')}}"/>
     <!-- endbuild -->
 
     <!-- build:js js/optimized.js -->
-    <script src="assets/js/foo.js"></script>
-    <script src="assets/js/bar.js"></script>
+    <script src="{{asset('assets/js/foo.js')}}"></script>
+    <script src="{{asset('assets/js/bar.js')}}"></script>
     <!-- endbuild -->
 ```
 
@@ -144,9 +144,9 @@ This will generate the following output:
 `index.html` output:
 
 ```
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="{{asset('style.css')}}"/>
 
-    <script src="js/optimized.js"></script>
+    <script src="{{asset('js/optimized.js')}}"></script>
 ```
 
 ## Changelog
